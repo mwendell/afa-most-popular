@@ -1,0 +1,14 @@
+div.afa-most-popular {
+}
+div.afa-most-popular ul {
+}
+div.afa-most-popular ul li {
+}
+div.afa-most-popular ul li a {
+	text-decoration: none;
+	font-weight: bold;
+}
+div.afa-most-popular ul li a:hover {
+	color: blue;
+	cursor: pointer;
+}
