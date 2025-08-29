@@ -1,0 +1,14 @@
+{
+	"name": "mwendell/afa-most-popular",
+	"type": "wordpress-plugin",
+	"require": {
+		"composer/installers": "^2"
+	},
+	"authors": [
+		{
+			"name": "Michael Wendell",
+			"email": "mwendell@kwyjibo.com",
+			"homepage": "http://kwyjibo.com"
+		}
+	]
+}
