@@ -95,17 +95,15 @@ add_action( 'wp_dashboard_setup', 'afa_most_popular_add_dashboard_widget');
 
 function afa_most_popular_render_dashboard_widget() {
 
-	// MANUAL REFRESH?
+	$force = false;
+
+	// MANUAL REFRESH, USE THE FORCE OPTION
 	if ( isset( $_GET['afa_refresh'] ) && current_user_can( 'manage_options' ) && check_admin_referer( 'afa_refresh_nonce' ) ) {
-
-		afa_most_popular_fetch_data( true ); // force refresh
+		$force = true;
 		echo '<div class="notice notice-success inline"><p>Data refreshed.</p></div>';
-
-	} else {
-
-		$popular = afa_most_popular_fetch_data();
-
 	}
+
+	$popular = afa_most_popular_fetch_data( $force );
 
 	if ( empty( $popular ) ) {
 		echo '<p>No data available.</p>';

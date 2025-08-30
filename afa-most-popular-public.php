@@ -1,8 +1,8 @@
 <?php
 function afa_render_most_popular_shortcode($atts) {
 
-	$popular = get_option( 'afa_most_popular_pages', array() );
-	$allowed_types = get_option( 'afa_display_post_types', array( 'post', 'article' ) );
+	$popular = get_option( 'afa_most_popular_posts', array() );
+	$allowed_types = get_option( 'afa_most_popular_post_types', array( 'post', 'article' ) );
 
 	if ( empty( $popular ) || empty( $allowed_types ) ) {
 		return;

@@ -49,8 +49,8 @@ function afa_most_popular_fetch_data( $force = false ) {
 		$last_fetched = get_option( 'afa_most_popular_last_fetched', 0 );
 		$data_age = time() - intval( $last_fetched );
 
-		if ( $data_age > 12 * HOUR_IN_SECONDS ) {
-			$popular = get_option( 'afa_most_popular_pages', [] );
+		if ( $data_age < 12 * HOUR_IN_SECONDS ) {
+			$popular = get_option( 'afa_most_popular_posts', [] );
 			return $popular;
 		}
 
@@ -110,7 +110,7 @@ function afa_most_popular_fetch_data( $force = false ) {
 			);
 		}
 
-		update_option( 'afa_most_popular_pages', $popular );
+		update_option( 'afa_most_popular_posts', $popular );
 		update_option( 'afa_most_popular_last_fetched', time() );
 
 	}
