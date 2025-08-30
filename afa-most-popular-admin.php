@@ -126,7 +126,7 @@ function afa_most_popular_render_dashboard_widget() {
 		$i++;
 		$views = $post['views'];
 		$url = esc_url( home_url( $post['path'] ) );
-		echo "<tr><td><a href='{$url}' target='_blank'>{$title}</a></td><td>{$views}</td></tr>";
+		echo "<tr><td><a href='{$url}' target='_blank'>{$title}</a></td><td style='text-align: right;'>{$views}</td></tr>";
 		if ( $i == 10 ) {
 			break;
 		}
