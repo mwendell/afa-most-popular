@@ -54,16 +54,4 @@ add_shortcode( 'afa_most_popular', 'afa_render_most_popular_shortcode' );
     [thumbnail] => https://airandspaceforces.com.ddev.site/app/uploads/2025/08/9080408-200x200.jpg
 )
 -->
-
-<div class="items grid-container background-gray trending-stories">
-	<h3 class="sidebar-title col-sm-12">Most popular</h3>
-	<!-- loop -->
-	<div class="item article-trending-stories grid-container">
-		<div class="col-sm-2 col-lg-4 col-no-pad col-no-margin image-wrapper">
-			<a href="https://airandspaceforces.com.ddev.site/air-force-china-disaggregated-collaborative-air-ops/" title="How the Air Force Might ‘Judo Throw’ China’s Plan to Disrupt Its C2 Networks"><img width="150" height="150" src="https://airandspaceforces.com.ddev.site/app/uploads/2023/03/Distributed-Teaming-Skunk-Works-1-150x150.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="https://airandspaceforces.com.ddev.site/app/uploads/2023/03/Distributed-Teaming-Skunk-Works-1-150x150.jpg 150w, https://airandspaceforces.com.ddev.site/app/uploads/2023/03/Distributed-Teaming-Skunk-Works-1-200x200.jpg 200w" sizes="auto, (max-width: 150px) 100vw, 150px"></a>          </div>
-			<div class="col-sm-10 col-lg-8 col-no-pad col-no-margin">
-			<h4 class="post-title"><a href="https://airandspaceforces.com.ddev.site/air-force-china-disaggregated-collaborative-air-ops/" rel="bookmark" title="How the Air Force Might ‘Judo Throw’ China’s Plan to Disrupt Its C2 Networks">How the Air Force Might ‘Judo Throw’ China’s Plan to Disrupt Its C2 Networks</a></h4>
-		</div>
-	</div>
-	<!-- /loop -->
-</div>
+*/
