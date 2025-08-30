@@ -19,13 +19,7 @@ function afa_admin_init() {
 	register_setting( 'afa_most_popular_settings', 'afa_most_popular_ga4_property_id' );
 	register_setting( 'afa_most_popular_settings', 'afa_most_popular_client_email' );
 	register_setting( 'afa_most_popular_settings', 'afa_most_popular_private_key' );
-
-	if ( isset( $_POST['afa_display_post_types'] ) && is_array( $_POST['afa_display_post_types'] ) ) {
-		$sanitized = array_map( 'sanitize_text_field', $_POST['afa_display_post_types'] );
-		update_option( 'afa_display_post_types', $sanitized );
-	} else {
-		update_option('afa_display_post_types', []);
-	}
+	register_setting( 'afa_most_popular_settings', 'afa_most_popular_display_post_types' );
 
 }
 add_action( 'admin_init', 'afa_admin_init' );
