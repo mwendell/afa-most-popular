@@ -14,13 +14,18 @@ function afa_render_most_popular_shortcode($atts) {
 	echo '<div class="afa-most-popular"><ul>';
 
 	foreach ( $popular as $post ) {
+
+		echo "<!--";
+		echo print_r( $post, 1 );
+		echo "-->";
+
 		if ( ! in_array( $post['post_type'], $allowed_types, true ) ) {
 			continue;
 		}
 
 		$title = $post['title'];
-		$url = esc_url(home_url($path));
-		$views = $post['views'];
+		$url = esc_url( home_url( $post['path'] ) );
+		//$views = $post['views'];
 
 		if ( ! $title || ! $url ) {
 			continue;
