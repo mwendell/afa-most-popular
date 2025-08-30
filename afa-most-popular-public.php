@@ -5,7 +5,7 @@ function afa_render_most_popular_shortcode( $atts ) {
 		'count' => 3,
 	);
 
-    $attributes = shortcode_atts( $default, $atts );
+    $attributes = shortcode_atts( $defaults, $atts );
 
 	echo afa_most_popular_render( $attributes['count'] );
 
