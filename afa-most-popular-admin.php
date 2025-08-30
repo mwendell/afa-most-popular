@@ -86,7 +86,7 @@ function afa_most_popular_add_dashboard_widget() {
 
 	wp_add_dashboard_widget(
 		'afa_most_popular_widget',
-		'Google Analytics Popular Pages (Last 24h)',
+		'Most Popular Posts and Articles (Last 24h)',
 		'afa_most_popular_render_dashboard_widget'
 	);
 
@@ -100,7 +100,6 @@ function afa_most_popular_render_dashboard_widget() {
 	// MANUAL REFRESH, USE THE FORCE OPTION
 	if ( isset( $_GET['afa_refresh'] ) && current_user_can( 'manage_options' ) && check_admin_referer( 'afa_refresh_nonce' ) ) {
 		$force = true;
-		echo '<div class="notice notice-success inline"><p>Data refreshed.</p></div>';
 	}
 
 	$popular = afa_most_popular_fetch_data( $force );
