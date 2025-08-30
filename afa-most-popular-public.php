@@ -1,5 +1,5 @@
 <?php
-function afa_render_most_popular_shortcode($atts) {
+function afa_render_most_popular_shortcode( $atts ) {
 
 	$popular = get_option( 'afa_most_popular_posts', array() );
 	$allowed_types = get_option( 'afa_most_popular_post_types', array( 'post', 'article' ) );
@@ -11,13 +11,12 @@ function afa_render_most_popular_shortcode($atts) {
 	wp_enqueue_style( 'afa-most-popular-shortcode-css', 'afa-most-popular.css' );
 
 	ob_start();
-	echo '<div class="afa-most-popular"><ul>';
+	echo "<div class='items grid-container background-gray trending-stories'><h3 class='sidebar-title col-sm-12'>Most popular</h3>";
+
+
+
 
 	foreach ( $popular as $post ) {
-
-		echo "<!--";
-		echo print_r( $post, 1 );
-		echo "-->";
 
 		if ( ! in_array( $post['post_type'], $allowed_types, true ) ) {
 			continue;
@@ -25,16 +24,46 @@ function afa_render_most_popular_shortcode($atts) {
 
 		$title = $post['title'];
 		$url = esc_url( home_url( $post['path'] ) );
-		//$views = $post['views'];
+		$image = esc_url( home_url( $post['thumbnail'] ) );
 
 		if ( ! $title || ! $url ) {
 			continue;
 		}
 
-		echo "<li><a href='{$url}'>{$title}</li>";
+		echo "<div class='item article-trending-stories grid-container'><div class='col-sm-2 col-lg-4 col-no-pad col-no-margin image-wrapper'>";
+		echo "<a href='{$url}' title='{$title}'><img width='150' height='150' src='{$image}' class='attachment-thumbnail size-thumbnail wp-post-image' alt='' decoding='async' loading='lazy'></a></div>";
+		echo "<div class='col-sm-10 col-lg-8 col-no-pad col-no-margin'>";
+		echo "<h4 class='post-title'><a href='{$url}' rel='bookmark' title='{$title}'>{$title}</a></h4>";
+		echo "</div></div>";
 	}
 
-	echo '</ul></div>';
+	echo '</div>';
 	return ob_get_clean();
 }
-add_shortcode('afa_most_popular', 'afa_render_most_popular_shortcode');
+add_shortcode( 'afa_most_popular', 'afa_render_most_popular_shortcode' );
+
+/*
+ <!--Array
+(
+    [path] => /air-force-officials-solve-valley-of-death-acquisition/
+    [views] => 105516
+    [post_id] => 251794
+    [post_type] => post
+    [title] => Air Force Officials Say They’re Poised to Solve the Longstanding ‘Valley of Death’
+    [edit_link] => https://airandspaceforces.com.ddev.site/wp/wp-admin/post.php?post=251794&amp;action=edit
+    [thumbnail] => https://airandspaceforces.com.ddev.site/app/uploads/2025/08/9080408-200x200.jpg
+)
+-->
+
+<div class="items grid-container background-gray trending-stories">
+	<h3 class="sidebar-title col-sm-12">Most popular</h3>
+	<!-- loop -->
+	<div class="item article-trending-stories grid-container">
+		<div class="col-sm-2 col-lg-4 col-no-pad col-no-margin image-wrapper">
+			<a href="https://airandspaceforces.com.ddev.site/air-force-china-disaggregated-collaborative-air-ops/" title="How the Air Force Might ‘Judo Throw’ China’s Plan to Disrupt Its C2 Networks"><img width="150" height="150" src="https://airandspaceforces.com.ddev.site/app/uploads/2023/03/Distributed-Teaming-Skunk-Works-1-150x150.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="https://airandspaceforces.com.ddev.site/app/uploads/2023/03/Distributed-Teaming-Skunk-Works-1-150x150.jpg 150w, https://airandspaceforces.com.ddev.site/app/uploads/2023/03/Distributed-Teaming-Skunk-Works-1-200x200.jpg 200w" sizes="auto, (max-width: 150px) 100vw, 150px"></a>          </div>
+			<div class="col-sm-10 col-lg-8 col-no-pad col-no-margin">
+			<h4 class="post-title"><a href="https://airandspaceforces.com.ddev.site/air-force-china-disaggregated-collaborative-air-ops/" rel="bookmark" title="How the Air Force Might ‘Judo Throw’ China’s Plan to Disrupt Its C2 Networks">How the Air Force Might ‘Judo Throw’ China’s Plan to Disrupt Its C2 Networks</a></h4>
+		</div>
+	</div>
+	<!-- /loop -->
+</div>
