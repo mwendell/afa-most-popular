@@ -86,7 +86,7 @@ function afa_most_popular_add_dashboard_widget() {
 
 	wp_add_dashboard_widget(
 		'afa_most_popular_widget',
-		'AFA Most Popular Pages (Last 24h)',
+		'Google Analytics Popular Pages (Last 24h)',
 		'afa_most_popular_render_dashboard_widget'
 	);
 
