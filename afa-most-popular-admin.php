@@ -110,15 +110,20 @@ function afa_most_popular_render_dashboard_widget() {
 		return;
 	}
 
+	$allowed_types = get_option( 'afa_most_popular_post_types', array( 'post', 'article' ) );
+
 	// BUILD AND DISPLAY DATA
 	echo '<table class="widefat striped">';
 	echo '<thead><tr><th>Title</th><th>Views</th></tr></thead><tbody>';
 
 	foreach ( $popular as $post ) {
-		$title = esc_html( $post['title'] ) ?? '(Unknown)';
-		$path = esc_html( $post['path'] );
+		$title = esc_html( $post['title'] ) ?? false;
+		$type = $post['post_type'];
+		if ( ! $title || ! in_array( $type, $allowed_types ) ) {
+			continue;
+		}
 		$views = $post['views'];
-		$url = esc_url( home_url( $path ) );
+		$url = esc_url( home_url( $post['path'] ) );
 
 		echo "<tr><td><a href='{$url}' target='_blank'>{$title}</a></td><td>{$views}</td></tr>";
 	}
