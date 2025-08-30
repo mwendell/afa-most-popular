@@ -42,7 +42,19 @@ include 'afa-most-popular-admin.php';
 include 'afa-most-popular-public.php';
 
 // FETCH THE DATA FROM GOOGLE
-function afa_most_popular_fetch_data() {
+function afa_most_popular_fetch_data( $force = false ) {
+
+	if ( ! $force ) {
+
+		$last_fetched = get_option( 'afa_most_popular_last_fetched', 0 );
+		$data_age = time() - intval( $last_fetched );
+
+		if ( $data_age > 12 * HOUR_IN_SECONDS ) {
+			$popular = get_option( 'afa_most_popular_pages', [] );
+			return $popular;
+		}
+
+	}
 
 	$property_id = get_option( 'afa_most_popular_ga4_property_id' );
 	$client_email = get_option( 'afa_most_popular_client_email' );
@@ -102,6 +114,9 @@ function afa_most_popular_fetch_data() {
 		update_option( 'afa_most_popular_last_fetched', time() );
 
 	}
+
+	return $popular;
+
 }
 
 

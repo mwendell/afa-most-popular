@@ -97,21 +97,15 @@ function afa_most_popular_render_dashboard_widget() {
 
 	// MANUAL REFRESH?
 	if ( isset( $_GET['afa_refresh'] ) && current_user_can( 'manage_options' ) && check_admin_referer( 'afa_refresh_nonce' ) ) {
-		afa_most_popular_fetch_data(); // force refresh
+
+		afa_most_popular_fetch_data( true ); // force refresh
 		echo '<div class="notice notice-success inline"><p>Data refreshed.</p></div>';
+
+	} else {
+
+		$popular = afa_most_popular_fetch_data();
+
 	}
-
-	// TODO: the fetch data function should determine if new data needs to be fetched.
-	$last_fetched = get_option( 'afa_most_popular_last_fetched', 0 );
-	$data_age = time() - intval($last_fetched);
-
-	if ( $data_age > 12 * HOUR_IN_SECONDS ) {
-		echo '<p><em>Data is older than 12 hours. Fetching latest data...</em></p>';
-		afa_most_popular_fetch_data(); // auto refresh
-		$last_fetched = get_option( 'afa_most_popular_last_fetched', 0 );
-	}
-
-	$popular = get_option( 'afa_most_popular_pages', [] );
 
 	if ( empty( $popular ) ) {
 		echo '<p>No data available.</p>';
@@ -120,7 +114,7 @@ function afa_most_popular_render_dashboard_widget() {
 
 	// BUILD AND DISPLAY DATA
 	echo '<table class="widefat striped">';
-	echo '<thead><tr><th>Title</th><th>Page</th><th>Views</th></tr></thead><tbody>';
+	echo '<thead><tr><th>Title</th><th>Views</th></tr></thead><tbody>';
 
 	foreach ( $popular as $post ) {
 		$title = esc_html( $post['title'] ) ?? '(Unknown)';
@@ -128,15 +122,7 @@ function afa_most_popular_render_dashboard_widget() {
 		$views = $post['views'];
 		$url = esc_url( home_url( $path ) );
 
-		/*
-		if ( current_user_can( 'edit_post', $post['post_id'] ) && ! empty( $post['edit_link'] ) ) {
-			$title_html = '<a href="' . esc_url($post['edit_link']) . '">' . esc_html($title) . '</a>';
-		} else {
-			$title_html = esc_html($title);
-		}
-		*/
-
-		echo "<tr><td>{$title}</td><td><a href='{$url}' target='_blank'>{$path}</a></td><td>{$views}</td></tr>";
+		echo "<tr><td><a href='{$url}' target='_blank'>{$title}</a></td><td>{$views}</td></tr>";
 	}
 
 	echo '</tbody></table>';
