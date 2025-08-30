@@ -44,9 +44,9 @@ include 'afa-most-popular-public.php';
 // FETCH THE DATA FROM GOOGLE
 function afa_most_popular_fetch_data() {
 
-	$property_id = get_option( 'afa_ga4_property_id' );
-	$client_email = get_option( 'afa_client_email' );
-	$private_key = get_option( 'afa_private_key' );
+	$property_id = get_option( 'afa_most_popular_ga4_property_id' );
+	$client_email = get_option( 'afa_most_popular_client_email' );
+	$private_key = get_option( 'afa_most_popular_private_key' );
 
 	if ( ! $property_id || ! $client_email || ! $private_key ) {
 		return;
