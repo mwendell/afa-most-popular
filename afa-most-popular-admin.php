@@ -116,21 +116,25 @@ function afa_most_popular_render_dashboard_widget() {
 	echo '<table class="widefat striped">';
 	echo '<thead><tr><th>Title</th><th>Views</th></tr></thead><tbody>';
 
+	$i = 0;
 	foreach ( $popular as $post ) {
 		$title = esc_html( $post['title'] ) ?? false;
 		$type = $post['post_type'];
 		if ( ! $title || ! in_array( $type, $allowed_types ) ) {
 			continue;
 		}
+		$i++;
 		$views = $post['views'];
 		$url = esc_url( home_url( $post['path'] ) );
-
 		echo "<tr><td><a href='{$url}' target='_blank'>{$title}</a></td><td>{$views}</td></tr>";
+		if ( $i = 10 ) {
+			break;
+		}
 	}
 
 	echo '</tbody></table>';
 
-	// Show timestamp and refresh button
+	$last_fetched = get_option( 'afa_most_popular_last_fetched', false );
 	if ( $last_fetched ) {
 		$last_fetched = date( 'Y-m-d H:i:s', $last_fetched );
 		echo "<p><small>Last updated: {$last_fetched}</small></p>";
