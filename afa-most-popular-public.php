@@ -7,7 +7,7 @@ function afa_render_most_popular_shortcode( $atts ) {
 
     $attributes = shortcode_atts( $defaults, $atts );
 
-	echo afa_most_popular_render( $attributes['count'] );
+	afa_most_popular_render( $attributes['count'] );
 
 }
 add_shortcode( 'afa_most_popular', 'afa_render_most_popular_shortcode' );
@@ -23,7 +23,7 @@ function afa_most_popular_enqueue_css() {
 }
 add_action( 'wp_enqueue_scripts', 'afa_most_popular_enqueue_css' );
 
-function afa_most_popular_render( $count = 4, $echo = false ) {
+function afa_most_popular_render( $count = 4, $echo = true ) {
 
 	$popular = afa_most_popular_fetch_data();
 	$allowed_types = get_option( 'afa_most_popular_post_types', array( 'post', 'article' ) );
