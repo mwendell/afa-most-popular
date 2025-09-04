@@ -1,14 +1,52 @@
 div.afa-most-popular {
+	background: #fff;
+	padding: 30px;
+	padding-top: 15px;
 }
-div.afa-most-popular ul {
+div.afa-most-popular h3 {
+	margin: 0 0 15px 0;
 }
-div.afa-most-popular ul li {
+div.afa-most-popular-container {
+	display: flex;
+	flex-direction: row;
+	gap: 15px;
+	align-items: stretch;
+	/* flex-wrap: wrap; */
+	justify-content: center;
 }
-div.afa-most-popular ul li a {
+a.afa-most-popular-story {
+	display: block;
+	border-radius: 5px;
+	flex-basis: 25%;
+	box-shadow: inset 0 -150px 50px -50px rgba(0, 0, 0, 0.8);
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	aspect-ratio: 2/3;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	padding: 15px;
+}
+a.afa-most-popular-story h4 {
+	font-size: 17px;
+	line-height: 21px;
 	text-decoration: none;
-	font-weight: bold;
+	color: #fff;
+	margin: 0;
 }
-div.afa-most-popular ul li a:hover {
-	color: blue;
-	cursor: pointer;
+@media only screen and (max-width: 768px) {
+	div.afa-most-popular {
+		max-width: 95%;
+		padding: 15px;
+	}
+	div.afa-most-popular h3 {
+		margin: -10px 0 5px 0;
+	}
+	div.afa-most-popular-container {
+		flex-direction: column;
+	}
+	a.afa-most-popular-story {
+		aspect-ratio: 5/2;
+	}
 }

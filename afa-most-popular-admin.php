@@ -135,7 +135,8 @@ function afa_most_popular_render_dashboard_widget() {
 
 	$last_fetched = get_option( 'afa_most_popular_last_fetched', false );
 	if ( $last_fetched ) {
-		$last_fetched = date( 'Y-m-d H:i:s', $last_fetched );
+		date_default_timezone_set(wp_timezone_string());
+		$last_fetched = date( 'F j, Y \a\t g:i A', $last_fetched );
 		echo "<p><small>Last updated: {$last_fetched}</small></p>";
 	}
 

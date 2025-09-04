@@ -2,7 +2,7 @@
 function afa_render_most_popular_shortcode( $atts ) {
 
 	$defaults = array(
-		'count' => 3,
+		'count' => 4,
 	);
 
     $attributes = shortcode_atts( $defaults, $atts );
@@ -12,16 +12,29 @@ function afa_render_most_popular_shortcode( $atts ) {
 }
 add_shortcode( 'afa_most_popular', 'afa_render_most_popular_shortcode' );
 
-function afa_most_popular_render( $count = 3, $echo = false ) {
+function afa_most_popular_enqueue_css() {
+    wp_enqueue_style(
+        'afa-most-popular-css',
+        plugins_url( 'afa-most-popular.css', __FILE__ ),
+        array(),
+        '1.0.0',
+        'all'
+    );
+}
+add_action( 'wp_enqueue_scripts', 'afa_most_popular_enqueue_css' );
 
-	$popular = get_option( 'afa_most_popular_posts', array() );
+function afa_most_popular_render( $count = 4, $echo = false ) {
+
+	$popular = afa_most_popular_fetch_data();
 	$allowed_types = get_option( 'afa_most_popular_post_types', array( 'post', 'article' ) );
 
 	if ( empty( $popular ) || empty( $allowed_types ) ) {
 		return;
 	}
 
-	$output = "<div class='items grid-container background-gray trending-stories'><h3 class='sidebar-title col-sm-12'>Most popular</h3>";
+	$basis = intval( 100/$count );
+
+	$output = "<div class='afa-most-popular'><h3>Trending Stories</h3><div class='afa-most-popular-container'>";
 
 	$i = 0;
 	foreach ( $popular as $post ) {
@@ -31,19 +44,17 @@ function afa_most_popular_render( $count = 3, $echo = false ) {
 		}
 
 		$title = $post['title'];
-		$url = esc_url( home_url( $post['path'] ) );
-		$image = esc_url( home_url( $post['thumbnail'] ) );
+		$url = $post['path'];
+		$image = $post['thumbnail'];
 
 		if ( ! $title || ! $url ) {
 			continue;
 		}
 
 		$i++;
-		$output .= "<div class='item article-trending-stories grid-container'><div class='col-sm-2 col-lg-4 col-no-pad col-no-margin image-wrapper'>";
-		$output .= "<a href='{$url}' title='{$title}'><img width='150' height='150' src='{$image}' class='attachment-thumbnail size-thumbnail wp-post-image' alt='' decoding='async' loading='lazy'></a></div>";
-		$output .= "<div class='col-sm-10 col-lg-8 col-no-pad col-no-margin'>";
-		$output .= "<h4 class='post-title'><a href='{$url}' rel='bookmark' title='{$title}'>{$title}</a></h4>";
-		$output .= "</div></div>";
+		$output .= "<a href='{$url}' rel='bookmark' title='{$title}' class='afa-most-popular-story' style='flex-basis:{$basis}%;background-image:url({$image})'>";
+		$output .= "<h4>{$title}</h4>";
+		$output .= "</a>";
 
 		if ( $i == $count ) {
 			break;
@@ -51,7 +62,7 @@ function afa_most_popular_render( $count = 3, $echo = false ) {
 
 	}
 
-	$output .=  '</div>';
+	$output .=  '</div></div>';
 
 	if ( $echo ) {
 		echo $output;

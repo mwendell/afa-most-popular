@@ -89,7 +89,7 @@ function afa_most_popular_fetch_data( $force = false ) {
 			$views = $row['metricValues'][0]['value'];
 			$url = home_url( $path );
 			$post_id = url_to_postid( $url );
-			$post_type = $title = $edit_link = null;
+			$post_type = $title = $edit_link = $thumbnail = null;
 
 			if ( $post_id ) {
 				$post = get_post( $post_id );
@@ -97,7 +97,7 @@ function afa_most_popular_fetch_data( $force = false ) {
 					$post_type = $post->post_type;
 					$title = get_the_title( $post_id );
 					$edit_link = get_edit_post_link( $post_id );
-					$thumbnail = get_the_post_thumbnail_url( $post_id, 'thumbnail' );
+					$thumbnail = get_the_post_thumbnail_url( $post_id, 'square-tall' ) ?: '';
 				}
 			}
 
