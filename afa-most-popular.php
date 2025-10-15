@@ -121,6 +121,66 @@ function afa_most_popular_fetch_data( $force = false ) {
 
 }
 
+function afa_most_popular_fetch_realtime_data() {
+
+	$property_id = get_option( 'afa_most_popular_ga4_property_id' );
+	$client_email = get_option( 'afa_most_popular_client_email' );
+	$private_key = get_option( 'afa_most_popular_private_key' );
+
+	if ( ! $property_id || ! $client_email || ! $private_key ) {
+		return;
+	}
+
+	$jwt_signed = afa_generate_jwt( $property_id, $client_email, $private_key );
+
+	$access_token = afa_request_access_token( $jwt_signed );
+
+	if ( ! $access_token) {
+		throw new Exception("Failed to get access token.");
+	}
+
+	$request_url = "https://analyticsdata.googleapis.com/v1beta/properties/$property_id:runRealtimeReport";
+
+	// 1. Total Active Users
+	$request_array = array(
+		'metrics' => array( array( 'name' => 'activeUsers' ) )
+	);
+
+	$active_users_data = afa_http_post_json( $request_url, $request_array, $access_token );
+
+	$active_users = $active_users_data['rows'][0]['metricValues'][0]['value'] ?? 0;
+
+	// 2. Active Users by Page
+	$request_array = array(
+		'dimensions' => array( array( 'name' => 'unifiedScreenName' ) ),
+		'metrics'    => array( array( 'name' => 'activeUsers' ) ),
+		'limit'      => 20
+	);
+
+	$traffic_data = afa_http_post_json( $request_url, $request_array, $access_token );
+	$traffic_by_page = [];
+
+	// echo "<pre>";
+	// print_r( $traffic_data );
+	// echo "</pre>";
+
+	if ( ! empty( $traffic_data['rows'] ) ) {
+		foreach ( $traffic_data['rows'] as $row ) {
+			$minute = $row['dimensionValues'][0]['value'];
+			$value = $row['metricValues'][0]['value'];
+			$traffic_by_page[$minute] = $value;
+		}
+	}
+
+	// Return both results
+	$output = array(
+		'current_active_users' => $active_users,
+		'traffic_by_page'    => $traffic_by_page
+	);
+
+	return $output;
+
+}
 
 // GENERATE JSON WEB TOKEN USED TO REQUEST AN ACCESS TOKEN FROM GOOGLE
 function afa_generate_jwt( $property_id = false, $client_email = false, $private_key = false ) {
@@ -206,6 +266,27 @@ function afa_http_post_json( $url, $data, $access_token ) {
 	curl_close( $ch );
 
 	return json_decode( $response, true );
+}
+
+function afa_http_post_json_realtime( $url, $jsonPayload, $headers ) {
+	$ch = curl_init($url);
+
+	curl_setopt_array($ch, [
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_POST => true,
+		CURLOPT_POSTFIELDS => $jsonPayload,
+		CURLOPT_HTTPHEADER => $headers
+	]);
+
+	$response = curl_exec($ch);
+	$err = curl_error($ch);
+	curl_close($ch);
+
+	if ($err) {
+		throw new Exception("cURL error: $err");
+	}
+
+	return json_decode($response, true);
 }
 
 function afa_get_title_by_path( $path ) {

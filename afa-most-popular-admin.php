@@ -104,6 +104,12 @@ function afa_most_popular_render_dashboard_widget() {
 
 	$popular = afa_most_popular_fetch_data( $force );
 
+	// $realtime = afa_most_popular_fetch_realtime_data();
+	//
+	// echo "<pre>";
+	// echo print_r( $realtime, 1 );
+	// echo "</pre>";
+
 	if ( empty( $popular ) ) {
 		echo '<p>No data available.</p>';
 		return;
